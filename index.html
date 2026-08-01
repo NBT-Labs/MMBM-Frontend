@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MMBM</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <span class="org-name" id="org-name">Loading...</span>
+      <nav class="site-nav">
+        <a href="#mission">Mission</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 id="hero-org-name">&nbsp;</h1>
+        <p class="tagline" id="tagline"></p>
+        <div id="welcome-text" class="welcome-text"></div>
+        <a id="donation-cta" class="btn btn-primary" href="#" target="_blank" rel="noopener" hidden>
+          Donate
+        </a>
+      </div>
+    </section>
+
+    <section id="mission" class="section">
+      <div class="container">
+        <h2>Our Mission</h2>
+        <div id="mission-statement" class="rich-text"></div>
+      </div>
+    </section>
+
+    <section id="about" class="section section-alt">
+      <div class="container">
+        <h2>About Us</h2>
+        <div class="about-grid">
+          <div>
+            <h3>History</h3>
+            <div id="history" class="rich-text"></div>
+          </div>
+          <div>
+            <h3>Organisation Structure</h3>
+            <div id="org-structure" class="rich-text"></div>
+          </div>
+        </div>
+        <div class="president-message">
+          <h3>Message from <span id="president-name"></span></h3>
+          <div id="president-message" class="rich-text"></div>
+        </div>
+        <div>
+          <h3>Vision &amp; Objectives</h3>
+          <div id="vision-objectives" class="rich-text"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container links-grid">
+        <a id="hindu-calendar-link" class="link-card" href="#" target="_blank" rel="noopener" hidden>
+          <h3>Hindu Calendar</h3>
+          <p>Events, prayers, festivals &amp; god birthdays</p>
+        </a>
+        <a id="chanting-link" class="link-card" href="#" target="_blank" rel="noopener" hidden>
+          <h3>Weekly Ramcharitmanas Chanting</h3>
+          <p>Join the weekly session</p>
+        </a>
+      </div>
+    </section>
+
+    <section id="contact" class="section section-alt">
+      <div class="container">
+        <h2>Contact Us</h2>
+        <ul class="contact-list">
+          <li id="contact-email-row" hidden>Email: <a id="contact-email" href="#"></a></li>
+          <li id="contact-phone-row" hidden>Phone: <span id="contact-phone"></span></li>
+          <li id="contact-address-row" hidden>Address: <span id="contact-address"></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <p id="error-banner" class="error-banner" hidden></p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="footer-year"></span> <span id="footer-org-name"></span></p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

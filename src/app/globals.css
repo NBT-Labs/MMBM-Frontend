@@ -41,3 +41,36 @@
     linear-gradient(-45deg, transparent 48%, rgba(0, 116, 122, 0.06) 49%, rgba(0, 116, 122, 0.06) 51%, transparent 52%);
   background-size: 64px 64px;
 }
+
+/* react-big-calendar brand overrides. The toolbar itself is fully replaced
+   (see EventCalendar.tsx's BrandToolbar) - this just retints the grid so
+   the default blue "today" highlight and gray borders match the palette. */
+.rbc-calendar .rbc-today {
+  background-color: rgba(244, 185, 66, 0.14); /* Sun Gold tint */
+}
+.rbc-calendar .rbc-off-range-bg {
+  background-color: rgba(221, 235, 236, 0.5); /* River Mist tint */
+}
+.rbc-calendar .rbc-header {
+  padding: 8px 4px;
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  color: #17133d;
+  border-color: #ddebec;
+}
+.rbc-calendar .rbc-month-view,
+.rbc-calendar .rbc-time-view,
+.rbc-calendar .rbc-agenda-view table.rbc-agenda-table,
+.rbc-calendar .rbc-month-row,
+.rbc-calendar .rbc-day-bg,
+.rbc-calendar .rbc-header,
+.rbc-calendar .rbc-time-header,
+.rbc-calendar .rbc-time-content {
+  border-color: #ddebec;
+}
+.rbc-calendar .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
+  font-family: var(--font-montserrat);
+  font-weight: 700;
+  color: #17133d;
+  border-color: #ddebec;
+}

@@ -5,6 +5,8 @@ import {
   Calendar,
   dateFnsLocalizer,
   type Event as RbcEvent,
+  type ToolbarProps,
+  type View,
 } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
@@ -22,6 +24,67 @@ const localizer = dateFnsLocalizer({
 
 interface CalendarEvent extends RbcEvent {
   resource: MmbmEvent;
+}
+
+const VIEW_OPTIONS: { key: View; label: string }[] = [
+  { key: "month", label: "Month" },
+  { key: "week", label: "Week" },
+  { key: "day", label: "Day" },
+  { key: "agenda", label: "Agenda" },
+];
+
+// react-big-calendar's default Toolbar looks like an unstyled browser
+// button and doesn't match the brand system, so we swap it out for our own
+// via the `components.toolbar` prop. It still drives navigation through the
+// same onNavigate/onView callbacks the Calendar passes down, so Today/Prev/
+// Next/view-switching all keep working exactly as before - just restyled.
+function BrandToolbar({ label, onNavigate, onView, view }: ToolbarProps<CalendarEvent, object>) {
+  return (
+    <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex items-center gap-2">
+        <button
+          type="button"
+          onClick={() => onNavigate("TODAY")}
+          className="rounded-brand bg-indigo px-3 py-1.5 font-display text-sm font-bold text-white hover:brightness-110"
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          onClick={() => onNavigate("PREV")}
+          aria-label="Previous"
+          className="rounded-brand border border-mist px-3 py-1.5 text-sm font-bold text-indigo hover:bg-mist/60"
+        >
+          &larr;
+        </button>
+        <button
+          type="button"
+          onClick={() => onNavigate("NEXT")}
+          aria-label="Next"
+          className="rounded-brand border border-mist px-3 py-1.5 text-sm font-bold text-indigo hover:bg-mist/60"
+        >
+          &rarr;
+        </button>
+      </div>
+
+      <h2 className="font-display text-lg font-bold text-indigo">{label}</h2>
+
+      <div className="flex gap-1 rounded-brand bg-mist/60 p-1">
+        {VIEW_OPTIONS.map((v) => (
+          <button
+            key={v.key}
+            type="button"
+            onClick={() => onView(v.key)}
+            className={`rounded-brand px-3 py-1.5 text-sm font-bold transition-colors ${
+              view === v.key ? "bg-gold text-indigo" : "text-indigo/70 hover:bg-white"
+            }`}
+          >
+            {v.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function toCalendarEvents(events: MmbmEvent[]): CalendarEvent[] {
@@ -45,6 +108,14 @@ export default function EventCalendar({
   const calendarEvents = useMemo(() => toCalendarEvents(events), [events]);
   const [selected, setSelected] = useState<MmbmEvent | null>(null);
 
+  // Drive navigation/view from our own state instead of leaving the
+  // Calendar uncontrolled. react-big-calendar 1.20's internal state updates
+  // for Today/Prev/Next/view-switching weren't causing re-renders under
+  // React 19 - our own useState (already proven working via onSelectEvent
+  // below) sidesteps that entirely.
+  const [date, setDate] = useState<Date>(new Date());
+  const [view, setView] = useState<View>("month");
+
   return (
     <div>
       <div className="rounded-brand border border-mist bg-white p-2 md:p-4">
@@ -54,6 +125,11 @@ export default function EventCalendar({
           startAccessor="start"
           endAccessor="end"
           style={{ height: 640 }}
+          date={date}
+          view={view}
+          onNavigate={setDate}
+          onView={setView}
+          components={{ toolbar: BrandToolbar }}
           eventPropGetter={(event) => {
             const e = (event as CalendarEvent).resource;
             return {

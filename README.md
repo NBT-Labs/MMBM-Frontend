@@ -1,41 +1,103 @@
-# MMBM Frontend
+# MMBMA Website
 
-Plain HTML/CSS/vanilla JS site for the Montreal Mauritian Bajrang Mandal Association. No
-build step, no framework — just static files that call the Odoo backend's public API.
+Next.js (App Router) site for the Montreal Mauritian Bajrang Mandal Association, built on
+the Option B brand system (`MMBMA_Brand_Identity_Option_B.pdf`). All content comes from
+the `MMBM-Backend` Odoo instance's public JSON API - no CMS/build step needed there beyond
+editing records in Odoo.
 
-## Structure
+> Note: there's a stray `favicon_src.ico` at the repo root - leftover from scaffolding,
+> safe to delete (`rm favicon_src.ico`). The real favicon lives at `src/app/favicon.ico`.
 
-- `index.html` — Home page markup
-- `css/styles.css` — Styling
-- `js/config.js` — Set `API_BASE_URL` to point at your Odoo backend
-- `js/app.js` — Fetches `/api/mmbm/config` and fills in the page
+## Stack
 
-## Run locally
+Scaffolded with the official `create-next-app` (App Router, TypeScript, Tailwind, `src/`
+dir, `@/*` import alias) on **Next.js 16 / React 19 / Tailwind v4**. Tailwind v4 moves
+theme config into CSS - the brand colors/fonts/radius live in `src/app/globals.css`'s
+`@theme` block rather than a `tailwind.config.ts` file.
 
-The backend (see `MMBM-Backend`) must be running with the `mmbm_admin_config` module
-installed, since that's what serves `GET /api/mmbm/config`.
+- Deploys to Vercel's free tier with zero config.
+- **react-big-calendar** for the Events page calendar (color-coded by type, click for a
+  details modal, legend below).
+- ISR (`revalidate: 300`) on all API calls, so pages stay fast without hammering Odoo.
 
-Because the page uses `fetch()`, open it through a local server rather than
-double-clicking the file (some browsers block `fetch` from `file://` origins):
+## Pages
+
+- `/` - Home: hero, mission summary, "This Week at the Mandal" preview.
+- `/about` - History, org structure, president's message, vision/objectives, contact.
+- `/events` - Full events calendar.
+- `/festivals` - Festival showcase cards (from the new `mmbm_festivals` Odoo module).
+
+Site-wide: a dismissible announcement banner above the navbar shows whichever
+`mmbm.announcement` is marked "Highest Priority" in Odoo (only one can be at a time -
+marking a new one automatically unmarks the previous one).
+
+## Run locally (Docker, recommended)
+
+Matches how `MMBM-Backend` already runs. Start the backend first (it creates the shared
+`mmbm_network` this compose file joins), then start this repo:
 
 ```bash
-# from this folder
-python3 -m http.server 3000
-# or: npx serve .
+# 1. In MMBM-Backend/
+docker compose up -d
+
+# 2. In MMBM-Frontend-/
+docker compose up
 ```
 
-Then visit http://localhost:3000. By default `js/config.js` points at
-`http://localhost:8069` (the backend's default docker-compose port).
+Visit http://localhost:3001. The container installs its own `node_modules` on first
+build (`docker compose build` if you want to do that step separately), so nothing needs
+to be installed on the host. Source is bind-mounted for hot reload - edits to `src/`
+show up without rebuilding the image.
 
-## Content
+If you get a "network mmbm_network not found" error, the backend stack isn't up yet -
+start it first.
 
-All page content (org name, tagline, welcome text, mission, history, president's message,
-vision/objectives, contact details, donation/calendar/chanting links) comes from the single
-**Admin Config** record in the Odoo backend. Edit it there — no code changes needed here to
-update copy.
+To point at a differently-hosted backend (not the local Docker one), edit the
+`NEXT_PUBLIC_API_BASE_URL` / `API_BASE_URL_INTERNAL` values in `docker-compose.yml`.
+
+## Run locally (without Docker)
+
+```bash
+npm install
+cp .env.local.example .env.local   # point NEXT_PUBLIC_API_BASE_URL at your Odoo backend
+npm run dev
+```
+
+Either way, this requires `MMBM-Backend` running with `mmbm_admin_config`, `mmbm_events`,
+`mmbm_announcements` and `mmbm_festivals` installed/upgraded (`-u` after pulling backend
+changes), since those modules serve the public API routes this site reads:
+
+- `GET /api/mmbm/config`
+- `GET /api/mmbm/announcements/banner`, `GET /api/mmbm/announcements`
+- `GET /api/mmbm/events`, `GET /api/mmbm/events/legend`
+- `GET /api/mmbm/festivals`
+
+## Deploy (Vercel, free tier)
+
+1. Push this repo to GitHub.
+2. Import it in Vercel - it auto-detects Next.js, no build config needed.
+3. Set the `NEXT_PUBLIC_API_BASE_URL` environment variable in the Vercel project to your
+   publicly reachable Odoo URL (e.g. the Cloudflare Tunnel URL from `MMBM-Backend`'s
+   `docker-compose.yml`, or wherever the backend ends up hosted).
+4. Deploy. Content updates in Odoo show up within 5 minutes (ISR revalidation) without a
+   redeploy.
+
+## Festivals data
+
+`mmbm_festivals` can pull candidate Hindu festival dates once a year (~Jan 1) from
+[Calendarific](https://calendarific.com/). This is a starting point only - every imported
+record starts unpublished and "Awaiting Annual Confirmation," since lunar/tithi-based
+dates need local verification before going live. To enable the yearly pull, set these
+System Parameters in Odoo (Settings > Technical > Parameters > System Parameters):
+
+- `mmbm_festivals.calendarific_api_key`
+- `mmbm_festivals.country` (defaults to `mu`)
+
+Festivals can also always be added manually in Odoo regardless of whether the API is
+configured.
 
 ## Next steps
 
-- Add Events / Blog / Announcements pages once their public API endpoints exist on the
-  backend (currently only `mmbm_admin_config` exposes one, at `/api/mmbm/config`).
-- Swap the static `API_BASE_URL` for an environment-specific value when deploying.
+- Photo Gallery, Info Room, Weekly Chanting and Book-a-Prayer pages (Phase 2, per the
+  Requirements table in Miro) once those modules/APIs exist.
+- Bilingual EN/FR per the brand system's Navigation guidance.

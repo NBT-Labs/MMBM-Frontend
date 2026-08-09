@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+/* Tailwind v4: theme tokens live in CSS, not tailwind.config.ts. Colors,
+   type and radius pulled directly from MMBMA_Brand_Identity_Option_B.pdf
+   ("Option B / Tradition in Motion"). Keep this in sync with that document.
+   `inline` because --font-display/--font-body reference CSS variables set
+   at runtime by next/font (see layout.tsx), not static values. */
+@theme inline {
+  --color-indigo: #17133d; /* Night Indigo - primary, headings, nav */
+  --color-teal: #00747a; /* Confluence Teal - links, info, secondary action */
+  --color-coral: #f06a5e; /* Living Coral - participation, youth */
+  --color-gold: #f4b942; /* Sun Gold - dates, celebration */
+  --color-cloud: #f7f5f0; /* Cloud White - canvas */
+  --color-mist: #ddebec; /* River Mist - quiet panel */
+  --color-ink: #151826; /* Body text */
+
+  --font-display: var(--font-montserrat);
+  --font-body: var(--font-heebo);
+
+  --radius-brand: 12px;
+}
+
+@layer base {
+  body {
+    @apply bg-cloud text-ink font-body;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display font-bold text-indigo;
+  }
+  a {
+    @apply text-teal;
+  }
+}
+
+/* "Meeting Lines" motif: two routes bending at 45 degrees to a shared node,
+   used at 5-12% opacity per the brand system. Applied as a subtle background
+   accent, never as the only source of meaning. */
+.meeting-lines-bg {
+  background-image:
+    linear-gradient(45deg, transparent 48%, rgba(23, 19, 61, 0.06) 49%, rgba(23, 19, 61, 0.06) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(0, 116, 122, 0.06) 49%, rgba(0, 116, 122, 0.06) 51%, transparent 52%);
+  background-size: 64px 64px;
+}

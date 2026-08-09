@@ -1,0 +1,34 @@
+services:
+  frontend:
+    build: .
+    container_name: mmbm_frontend
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      # Server Components run inside this container, so they reach Odoo over
+      # the shared Docker network by container name (see MMBM-Backend's
+      # docker-compose.yml, service "web" is given container_name: mmbm_odoo).
+      - API_BASE_URL_INTERNAL=http://mmbm_odoo:8069
+      # Anything rendered into the page for the *browser* to fetch directly
+      # (event/festival images) needs a host-reachable URL instead.
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8069
+      - NODE_ENV=development
+      # `next dev` reads PORT - without this it still binds 3000 inside the
+      # container regardless of the port mapping above.
+      - PORT=3001
+      # Bind-mount + Docker Desktop file watching can be unreliable without this.
+      - WATCHPACK_POLLING=true
+    networks:
+      - mmbm_network
+
+# Joins the network MMBM-Backend's docker-compose.yml already creates, so
+# this container can reach the Odoo container directly. Start the backend
+# stack first.
+networks:
+  mmbm_network:
+    name: mmbm_network
+    external: true

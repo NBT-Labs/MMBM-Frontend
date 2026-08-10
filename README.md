@@ -84,17 +84,11 @@ changes), since those modules serve the public API routes this site reads:
 
 ## Festivals data
 
-`mmbm_festivals` can pull candidate Hindu festival dates once a year (~Jan 1) from
-[Calendarific](https://calendarific.com/). This is a starting point only - every imported
-record starts unpublished and "Awaiting Annual Confirmation," since lunar/tithi-based
-dates need local verification before going live. To enable the yearly pull, set these
-System Parameters in Odoo (Settings > Technical > Parameters > System Parameters):
-
-- `mmbm_festivals.calendarific_api_key`
-- `mmbm_festivals.country` (defaults to `mu`)
-
-Festivals can also always be added manually in Odoo regardless of whether the API is
-configured.
+`GET /api/mmbm/festivals` serves published `mmbm.festival` rows. If a year has no rows
+yet, the backend fetches religious holidays for India from
+[Calendarific](https://calendarific.com/) (Hinduism only) and stores them. Set the Odoo
+system parameter `mmbm_festivals.calendarific_api_key` to enable that. Records can also
+be edited/added manually in Odoo.
 
 ## Next steps
 

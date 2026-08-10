@@ -51,16 +51,11 @@ export interface EventLegendItem {
   color: string;
 }
 
-export type FestivalCategory = "major" | "observance" | "regional";
-
 export interface Festival {
   id: number;
   name: string;
   date: string | null;
   year: number | null;
-  category: FestivalCategory;
   significance: string;
-  verification_status: "awaiting" | "confirmed";
-  source: string;
   image_url: string | null;
 }

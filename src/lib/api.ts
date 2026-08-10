@@ -20,7 +20,9 @@ import type {
 //
 // Outside Docker (plain `npm run dev`), both simply default to the same
 // value, so nothing extra needs to be configured for local, non-Docker dev.
-const PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8069";
+// Exported for client components (e.g. the contact form) that need to fetch
+// directly from the browser - they can't use the internal Docker URL below.
+export const PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8069";
 const INTERNAL_API_BASE_URL = process.env.API_BASE_URL_INTERNAL || PUBLIC_API_BASE_URL;
 
 // 5 minute revalidation in production: content is edited a few times a week

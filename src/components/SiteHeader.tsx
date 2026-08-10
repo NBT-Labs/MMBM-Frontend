@@ -10,6 +10,8 @@ const NAV_LINKS = [
   { href: "/about", label: "About Us" },
   { href: "/events", label: "Our Events" },
   { href: "/festivals", label: "Festivals" },
+  { href: "/announcements", label: "Announcements" },
+  { href: "/contact", label: "Contact Us" },
 ];
 
 export default function SiteHeader({

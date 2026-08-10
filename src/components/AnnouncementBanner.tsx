@@ -26,26 +26,34 @@ export default function AnnouncementBanner({
   };
 
   return (
-    <div className="flex items-center justify-between gap-4 bg-coral px-6 py-2 text-sm text-white">
-      <p className="min-w-0 flex-1 truncate">
-        <span className="mr-2 font-display font-bold uppercase tracking-wide">
-          Community Update
-        </span>
-        {announcement.title}
-        {announcement.link_url && (
-          <a
-            href={announcement.link_url}
-            className="ml-2 whitespace-nowrap font-semibold text-white underline underline-offset-2"
-          >
-            {announcement.link_label || "View details"} &rarr;
-          </a>
+    <div className="relative flex items-center justify-center gap-4 bg-coral px-12 py-2 text-center text-sm text-white">
+      <div className="min-w-0">
+        <p className="truncate">
+          <span className="mr-2 font-display font-bold uppercase tracking-wide">
+            Community Update
+          </span>
+          {announcement.title}
+          {announcement.link_url && (
+            <a
+              href={announcement.link_url}
+              className="ml-2 whitespace-nowrap font-semibold text-white underline underline-offset-2"
+            >
+              {announcement.link_label || "View details"} &rarr;
+            </a>
+          )}
+        </p>
+        {announcement.message && (
+          <div
+            className="truncate text-xs text-white/85 [&_p]:inline [&_p]:m-0"
+            dangerouslySetInnerHTML={{ __html: announcement.message }}
+          />
         )}
-      </p>
+      </div>
       <button
         type="button"
         onClick={handleDismiss}
         aria-label="Dismiss announcement"
-        className="shrink-0 text-lg leading-none text-white/90 hover:text-white"
+        className="absolute right-4 top-1/2 -translate-y-1/2 text-lg leading-none text-white/90 hover:text-white"
       >
         &times;
       </button>

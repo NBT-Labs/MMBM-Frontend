@@ -16,10 +16,30 @@ export default function SiteFooter({ config }: { config: SiteConfig | null }) {
           </p>
         )}
         {config?.contact_address && <p>{config.contact_address}</p>}
-        <p className="mt-4 text-white/50">
-          &copy; {year} {config?.org_name || "MMBMA"}. Faith, culture and community - lived
-          together in Montreal.
-        </p>
+        <div className="mt-4 flex flex-col gap-1 text-white/50 sm:flex-row sm:items-center sm:justify-between">
+          <p>&copy; {year} MMBM Association</p>
+          <p>
+            Designed and powered by{" "}
+            <a
+              href="https://www.nbtlabs.ca/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-mist hover:text-white"
+            >
+              NBT Labs
+            </a>{" "}
+            through{" "}
+            <a
+              href="https://www.odoo.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-mist hover:text-white"
+            >
+              Odoo
+            </a>
+            .
+          </p>
+        </div>
       </div>
     </footer>
   );

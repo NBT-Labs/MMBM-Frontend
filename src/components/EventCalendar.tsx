@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Calendar,
   dateFnsLocalizer,
@@ -12,6 +12,7 @@ import { format, parse, startOfWeek, getDay } from "date-fns";
 import { enUS } from "date-fns/locale";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import type { EventLegendItem, MmbmEvent } from "@/lib/types";
+import EventModal from "./EventModal";
 
 const locales = { "en-US": enUS };
 const localizer = dateFnsLocalizer({
@@ -116,6 +117,31 @@ export default function EventCalendar({
   const [date, setDate] = useState<Date>(new Date());
   const [view, setView] = useState<View>("month");
 
+  // react-big-calendar highlights "today" by comparing against the system
+  // clock on every render. If the server (Docker container, often UTC) and
+  // the browser (local timezone) disagree on what "today" is even by a few
+  // hours, the server-rendered HTML and the client's first render disagree
+  // too, which React flags as a hydration error. There's no SEO value in
+  // pre-rendering an interactive calendar anyway, so it's simplest to just
+  // not render it until after mount - server and the pre-mount client render
+  // both show the same placeholder, then the real (client-clock-accurate)
+  // calendar swaps in.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) {
+    return (
+      <div>
+        <div
+          className="flex items-center justify-center rounded-brand border border-mist bg-white p-2 text-sm text-ink/50 md:p-4"
+          style={{ height: 640 }}
+        >
+          Loading calendar...
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="rounded-brand border border-mist bg-white p-2 md:p-4">
@@ -163,64 +189,7 @@ export default function EventCalendar({
         </div>
       )}
 
-      {selected && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-indigo/60 p-4"
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setSelected(null)}
-        >
-          <div
-            className="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded-brand bg-white p-6"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="mb-3 flex items-start justify-between gap-4">
-              <div>
-                <span
-                  className="mb-2 inline-block rounded-brand px-2 py-1 text-xs font-bold text-white"
-                  style={{ backgroundColor: selected.color }}
-                >
-                  {selected.event_type_label}
-                </span>
-                <h3 className="text-xl">{selected.title}</h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                aria-label="Close"
-                className="text-2xl leading-none text-ink/50 hover:text-ink"
-              >
-                &times;
-              </button>
-            </div>
-
-            {selected.image_url && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={selected.image_url}
-                alt=""
-                className="mb-4 aspect-video w-full rounded-brand object-cover"
-              />
-            )}
-
-            <p className="mb-1 text-sm text-ink/70">
-              {new Date(selected.date_start as string).toLocaleString(undefined, {
-                dateStyle: "full",
-                timeStyle: "short",
-              })}
-            </p>
-            {selected.location && (
-              <p className="mb-3 text-sm text-ink/70">{selected.location}</p>
-            )}
-            {selected.description && (
-              <div
-                className="prose-mmbm max-w-none text-sm [&_p]:mb-2"
-                dangerouslySetInnerHTML={{ __html: selected.description }}
-              />
-            )}
-          </div>
-        </div>
-      )}
+      <EventModal event={selected} onClose={() => setSelected(null)} />
     </div>
   );
 }

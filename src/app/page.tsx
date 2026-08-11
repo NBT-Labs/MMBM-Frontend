@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getConfig, getEvents } from "@/lib/api";
 import RichText from "@/components/RichText";
+import FeaturedEvents from "@/components/FeaturedEvents";
 
 const WAYS_TO_PARTICIPATE = [
   { label: "Attend", color: "bg-teal" },
@@ -11,21 +12,17 @@ const WAYS_TO_PARTICIPATE = [
   { label: "Give", color: "bg-gold" },
 ];
 
-function formatDate(iso: string | null) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
-}
-
 export default async function HomePage() {
   const [config, events] = await Promise.all([getConfig(), getEvents()]);
 
-  const upcoming = events
-    .filter((e) => !e.is_past)
-    .sort((a, b) => (a.date_start || "").localeCompare(b.date_start || ""))
+  // Featured events only - set in Odoo, capped at 3 there. Whoever manages
+  // content controls exactly what shows here by checking/unchecking
+  // "Featured" on events, rather than it being an automatic "next 3" list.
+  const byDate = (a: (typeof events)[number], b: (typeof events)[number]) =>
+    (a.date_start || "").localeCompare(b.date_start || "");
+  const featuredEvents = events
+    .filter((e) => e.is_featured && !e.is_past)
+    .sort(byDate)
     .slice(0, 3);
 
   return (
@@ -112,36 +109,17 @@ export default async function HomePage() {
       <section className="px-6 py-14">
         <div className="mx-auto max-w-[1280px]">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl">This Week at the Mandal</h2>
+            <h2 className="text-2xl">Featured Events at MMBMA</h2>
             <Link href="/events" className="font-display text-sm font-bold text-teal hover:underline">
               View calendar &rarr;
             </Link>
           </div>
-          {upcoming.length === 0 ? (
-            <p className="text-ink/60">No upcoming events published yet - check back soon.</p>
+          {featuredEvents.length === 0 ? (
+            <p className="text-ink/60">
+              No featured events right now - check the calendar for everything upcoming.
+            </p>
           ) : (
-            <div className="grid gap-4 md:grid-cols-3">
-              {upcoming.map((event) => (
-                <div
-                  key={event.id}
-                  className="rounded-brand border border-mist bg-white p-5 shadow-sm"
-                >
-                  <span
-                    className="mb-2 inline-block rounded-brand px-2 py-1 text-xs font-bold text-white"
-                    style={{ backgroundColor: event.color }}
-                  >
-                    {event.event_type_label}
-                  </span>
-                  <p className="font-display text-3xl font-extrabold text-indigo">
-                    {formatDate(event.date_start)}
-                  </p>
-                  <p className="mt-1 font-semibold">{event.title}</p>
-                  {event.location && (
-                    <p className="mt-1 text-sm text-ink/60">{event.location}</p>
-                  )}
-                </div>
-              ))}
-            </div>
+            <FeaturedEvents events={featuredEvents} />
           )}
         </div>
       </section>

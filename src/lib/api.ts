@@ -25,18 +25,11 @@ import type {
 export const PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8069";
 const INTERNAL_API_BASE_URL = process.env.API_BASE_URL_INTERNAL || PUBLIC_API_BASE_URL;
 
-// 5 minute revalidation in production: content is edited a few times a week
-// in Odoo, not per-request, so ISR keeps pages fast without going stale for
-// long. In development this is disabled (always refetch) - otherwise every
-// edit you make in Odoo can appear to "not show up" for up to 5 minutes,
-// which is confusing while actively testing content changes.
-const IS_DEV = process.env.NODE_ENV !== "production";
-
 async function getJson<T>(path: string, fallback: T): Promise<T> {
   try {
     const res = await fetch(
       `${INTERNAL_API_BASE_URL}${path}`,
-      IS_DEV ? { cache: "no-store" } : { next: { revalidate: 300 } }
+      { cache: "no-store" }
     );
     if (!res.ok) throw new Error(`${path} -> ${res.status}`);
     return (await res.json()) as T;

@@ -4,12 +4,12 @@ import RichText from "@/components/RichText";
 import FeaturedEvents from "@/components/FeaturedEvents";
 
 const WAYS_TO_PARTICIPATE = [
-  { label: "Attend", color: "bg-teal" },
-  { label: "Learn", color: "bg-coral" },
-  { label: "Chant", color: "bg-gold" },
-  { label: "Volunteer", color: "bg-teal" },
-  { label: "Book", color: "bg-coral" },
-  { label: "Give", color: "bg-gold" },
+  { label: "Attend", color: "bg-teal", href: "/events" },
+  { label: "Learn", color: "bg-coral", href: "/about" },
+  { label: "Chant", color: "bg-gold", href: "/prayer" },
+  { label: "Volunteer", color: "bg-teal", href: "/contact" },
+  { label: "Book", color: "bg-coral", href: "/prayer" },
+  { label: "Give", color: "bg-gold", href: null as string | null },
 ];
 
 export default async function HomePage() {
@@ -72,12 +72,48 @@ export default async function HomePage() {
                 Ways to Participate
               </p>
               <div className="flex flex-wrap gap-x-6 gap-y-2">
-                {WAYS_TO_PARTICIPATE.map((w) => (
-                  <span key={w.label} className="flex items-center gap-2 text-sm">
-                    <span className={`h-3 w-3 rounded-sm ${w.color}`} />
-                    {w.label}
-                  </span>
-                ))}
+                {WAYS_TO_PARTICIPATE.map((w) => {
+                  const href =
+                    w.label === "Give" && config?.donation_link
+                      ? config.donation_link
+                      : w.href;
+                  const content = (
+                    <>
+                      <span className={`h-3 w-3 rounded-sm ${w.color}`} />
+                      {w.label}
+                    </>
+                  );
+                  if (!href) {
+                    return (
+                      <span key={w.label} className="flex items-center gap-2 text-sm">
+                        {content}
+                      </span>
+                    );
+                  }
+                  const isExternal = href.startsWith("http");
+                  if (isExternal) {
+                    return (
+                      <a
+                        key={w.label}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm hover:text-teal"
+                      >
+                        {content}
+                      </a>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={w.label}
+                      href={href}
+                      className="flex items-center gap-2 text-sm hover:text-teal"
+                    >
+                      {content}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>

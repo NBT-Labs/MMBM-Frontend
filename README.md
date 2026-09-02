@@ -71,6 +71,8 @@ changes), since those modules serve the public API routes this site reads:
 - `GET /api/mmbm/announcements/banner`, `GET /api/mmbm/announcements`
 - `GET /api/mmbm/events`, `GET /api/mmbm/events/legend`
 - `GET /api/mmbm/festivals`
+- `POST /api/mmbm/contact`
+- `POST /api/mmbm/prayer`
 
 ## Deploy (Vercel, free tier)
 
@@ -92,6 +94,6 @@ be edited/added manually in Odoo.
 
 ## Next steps
 
-- Photo Gallery, Info Room, Weekly Chanting and Book-a-Prayer pages (Phase 2, per the
+- Photo Gallery, Info Room, Weekly Chanting pages (Phase 2, per the
   Requirements table in Miro) once those modules/APIs exist.
 - Bilingual EN/FR per the brand system's Navigation guidance.

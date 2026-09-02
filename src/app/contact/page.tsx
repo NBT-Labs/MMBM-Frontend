@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getConfig } from "@/lib/api";
 import ContactForm from "@/components/ContactForm";
 
@@ -45,6 +46,13 @@ export default async function ContactPage() {
           <p className="mt-6 text-sm text-ink/70">
             We aim to respond to messages within a few days. For anything urgent, calling
             is faster than the form.
+          </p>
+          <p className="mt-4 text-sm text-ink/70">
+            Looking to arrange a Puja or chanting?{" "}
+            <Link href="/prayer" className="text-teal hover:underline">
+              Book a prayer
+            </Link>
+            .
           </p>
         </section>
 

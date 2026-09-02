@@ -14,6 +14,8 @@ export interface SiteConfig {
   donation_link: string;
   hindu_calendar_link: string;
   chanting_join_link: string;
+  prayer_intro: string;
+  prayer_expectations: string;
 }
 
 export interface Announcement {
@@ -59,3 +61,12 @@ export interface Festival {
   significance: string;
   image_url: string | null;
 }
+
+export type PrayerType = "puja" | "hanuman_chalisa" | "ramcharitmanas" | "other";
+
+export const PRAYER_TYPE_OPTIONS: { value: PrayerType; label: string }[] = [
+  { value: "puja", label: "Puja" },
+  { value: "hanuman_chalisa", label: "Hanuman Chalisa" },
+  { value: "ramcharitmanas", label: "Ramcharitmanas Chanting" },
+  { value: "other", label: "Other" },
+];

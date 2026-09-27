@@ -46,7 +46,7 @@ function BrandToolbar({ label, onNavigate, onView, view }: ToolbarProps<Calendar
         <button
           type="button"
           onClick={() => onNavigate("TODAY")}
-          className="rounded-brand bg-indigo px-3 py-1.5 font-display text-sm font-bold text-white hover:brightness-110"
+          className="btn btn-saffron px-4 py-2"
         >
           Today
         </button>
@@ -54,7 +54,7 @@ function BrandToolbar({ label, onNavigate, onView, view }: ToolbarProps<Calendar
           type="button"
           onClick={() => onNavigate("PREV")}
           aria-label="Previous"
-          className="rounded-brand border border-mist px-3 py-1.5 text-sm font-bold text-indigo hover:bg-mist/60"
+          className="grid h-9 w-9 place-items-center rounded-full border border-saffron-300 text-sm font-bold text-maroon-800 hover:bg-saffron-100"
         >
           &larr;
         </button>
@@ -62,22 +62,24 @@ function BrandToolbar({ label, onNavigate, onView, view }: ToolbarProps<Calendar
           type="button"
           onClick={() => onNavigate("NEXT")}
           aria-label="Next"
-          className="rounded-brand border border-mist px-3 py-1.5 text-sm font-bold text-indigo hover:bg-mist/60"
+          className="grid h-9 w-9 place-items-center rounded-full border border-saffron-300 text-sm font-bold text-maroon-800 hover:bg-saffron-100"
         >
           &rarr;
         </button>
       </div>
 
-      <h2 className="font-display text-lg font-bold text-indigo">{label}</h2>
+      <h2 className="text-xl">{label}</h2>
 
-      <div className="flex gap-1 rounded-brand bg-mist/60 p-1">
+      <div className="flex gap-1 rounded-full bg-saffron-50 p-1 ring-1 ring-saffron-100">
         {VIEW_OPTIONS.map((v) => (
           <button
             key={v.key}
             type="button"
             onClick={() => onView(v.key)}
-            className={`rounded-brand px-3 py-1.5 text-sm font-bold transition-colors ${
-              view === v.key ? "bg-gold text-indigo" : "text-indigo/70 hover:bg-white"
+            className={`rounded-full px-3 py-1.5 text-sm font-semibold transition-colors ${
+              view === v.key
+                ? "bg-maroon-800 text-white"
+                : "text-maroon-800/70 hover:bg-white hover:text-maroon-800"
             }`}
           >
             {v.label}
@@ -133,7 +135,7 @@ export default function EventCalendar({
     return (
       <div>
         <div
-          className="flex items-center justify-center rounded-brand border border-mist bg-white p-2 text-sm text-ink/50 md:p-4"
+          className="card flex items-center justify-center p-2 text-sm text-stone-500 md:p-4"
           style={{ height: 640 }}
         >
           Loading calendar...
@@ -144,7 +146,7 @@ export default function EventCalendar({
 
   return (
     <div>
-      <div className="rounded-brand border border-mist bg-white p-2 md:p-4">
+      <div className="card p-2 md:p-5">
         <Calendar
           localizer={localizer}
           events={calendarEvents}
@@ -172,8 +174,8 @@ export default function EventCalendar({
       </div>
 
       {legend.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 rounded-brand bg-mist/60 px-4 py-3 text-sm">
-          <span className="font-display text-xs font-bold uppercase tracking-widest text-ink/60">
+        <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border border-saffron-100 bg-saffron-50 px-5 py-3 text-sm text-stone-700">
+          <span className="eyebrow text-xs">
             Legend
           </span>
           {legend.map((item) => (

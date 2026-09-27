@@ -1,62 +1,283 @@
 @import "tailwindcss";
 
-/* Tailwind v4: theme tokens live in CSS, not tailwind.config.ts. Colors,
-   type and radius pulled directly from MMBMA_Brand_Identity_Option_B.pdf
-   ("Option B / Tradition in Motion"). Keep this in sync with that document.
-   `inline` because --font-display/--font-body reference CSS variables set
-   at runtime by next/font (see layout.tsx), not static values. */
-@theme inline {
-  --color-indigo: #17133d; /* Night Indigo - primary, headings, nav */
-  --color-teal: #00747a; /* Confluence Teal - links, info, secondary action */
-  --color-coral: #f06a5e; /* Living Coral - participation, youth */
-  --color-gold: #f4b942; /* Sun Gold - dates, celebration */
-  --color-cloud: #f7f5f0; /* Cloud White - canvas */
-  --color-mist: #ddebec; /* River Mist - quiet panel */
-  --color-ink: #151826; /* Body text */
+/* Tailwind v4: theme tokens live in CSS, not tailwind.config.ts. Palette and
+   type follow the client's reference site (saffron + maroon on warm cream,
+   Georgia headings). Keep in sync with that reference. */
+@theme {
+  --color-saffron-50: #fff7ed;
+  --color-saffron-100: #ffedd5;
+  --color-saffron-200: #fed7aa;
+  --color-saffron-300: #fdba74;
+  --color-saffron-400: #fb923c;
+  --color-saffron-500: #f97316;
+  --color-saffron-600: #ea580c;
+  --color-saffron-700: #c2410c;
+  --color-maroon-700: #7c2d12;
+  --color-maroon-800: #641b0e;
+  --color-maroon-900: #4a1409;
+  --color-cream: #fff8ef; /* Page canvas */
+  --color-marigold: #fbbf24; /* Announcement banner - must stand out from the maroon banners */
 
-  --font-display: var(--font-montserrat);
-  --font-body: var(--font-heebo);
-
-  --radius-brand: 12px;
+  --font-serif: Georgia, "Times New Roman", serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
-    @apply bg-cloud text-ink font-body;
+    @apply bg-cream font-sans leading-relaxed text-stone-800;
   }
   h1, h2, h3, h4 {
-    @apply font-display font-bold text-indigo;
+    @apply font-serif font-semibold text-maroon-800;
   }
-  a {
-    @apply text-teal;
+
+  /* Links inside Odoo Html fields (RichText) - there's no global link color,
+     so without this they'd be indistinguishable from body text. */
+  .prose-mmbm a {
+    color: var(--color-saffron-700);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* Maroon/photo backgrounds: keep Odoo headings and links legible. */
+  .on-dark :is(h1, h2, h3, h4) {
+    color: inherit;
+  }
+  .on-dark .prose-mmbm a {
+    color: var(--color-saffron-200);
   }
 }
 
-/* "Meeting Lines" motif: two routes bending at 45 degrees to a shared node,
-   used at 5-12% opacity per the brand system. Applied as a subtle background
-   accent, never as the only source of meaning. */
-.meeting-lines-bg {
-  background-image:
-    linear-gradient(45deg, transparent 48%, rgba(23, 19, 61, 0.06) 49%, rgba(23, 19, 61, 0.06) 51%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(0, 116, 122, 0.06) 49%, rgba(0, 116, 122, 0.06) 51%, transparent 52%);
-  background-size: 64px 64px;
+@layer components {
+  /* Pill buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    padding: 0.875rem 1.625rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: box-shadow 0.15s, background-color 0.15s;
+  }
+  .btn-saffron {
+    background: linear-gradient(90deg, var(--color-saffron-400), var(--color-saffron-600));
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  }
+  .btn-saffron:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+  }
+  .btn-saffron:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  .btn-ghost {
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  .btn-outline {
+    border: 1px solid var(--color-saffron-300);
+    color: var(--color-maroon-800);
+  }
+  .btn-outline:hover {
+    background: var(--color-saffron-100);
+  }
+  .btn-light {
+    background: #fff;
+    color: var(--color-maroon-800);
+  }
+
+  /* Section headings */
+  .eyebrow {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-saffron-600);
+  }
+  .section-title {
+    margin-top: 0.625rem;
+    font-size: 2.125rem;
+    line-height: 1.2;
+  }
+
+  /* Cards */
+  .card {
+    border: 1px solid var(--color-saffron-100);
+    border-radius: 1rem;
+    background: #fff;
+    padding: 1.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+  .card-hover {
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+  .form-box {
+    border: 1px solid var(--color-saffron-100);
+    border-radius: 1.25rem;
+    background: #fff;
+    padding: 2rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Form fields */
+  .form-label {
+    display: block;
+    margin-bottom: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #44403c; /* stone-700 */
+  }
+  .form-input {
+    width: 100%;
+    border: 1px solid var(--color-saffron-200);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .form-input:focus {
+    border-color: var(--color-saffron-400);
+    box-shadow: 0 0 0 3px var(--color-saffron-200);
+  }
+
+  /* Event tags */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 999px;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--color-saffron-100);
+    color: var(--color-saffron-700);
+  }
+  .tag-maroon {
+    background: var(--color-maroon-700);
+    color: #fff;
+  }
+
+  /* Lists inside Odoo rich text, shown as saffron check marks instead of
+     plain bullets (About page). The tick is Lucide's "check" path. */
+  .list-check ul {
+    display: grid;
+    gap: 0.625rem;
+    padding-left: 0;
+    list-style: none;
+  }
+  .list-check li {
+    position: relative;
+    padding-left: 1.875rem;
+  }
+  .list-check li::before {
+    content: "";
+    position: absolute;
+    top: 0.2em;
+    left: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 999px;
+    background: var(--color-saffron-100)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23c2410c' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")
+      center / 0.75rem no-repeat;
+  }
+}
+
+/* Inner-page banner: maroon gradient with two soft saffron glows. */
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-maroon-800), var(--color-maroon-900));
+}
+.page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background:
+    radial-gradient(circle at 20% 30%, #fbbf24 0, transparent 40%),
+    radial-gradient(circle at 80% 70%, #f97316 0, transparent 40%);
+}
+
+/* Home hero overlay over the photo. */
+.hero-overlay {
+  background: linear-gradient(90deg, rgba(74, 20, 9, 0.92), rgba(74, 20, 9, 0.72), rgba(74, 20, 9, 0.35));
+}
+
+/* Motion. Page content fades up as it arrives (template.tsx wraps every
+   page in .page-enter) and swapped-in content (festival views) fades instead
+   of popping. No fill-mode on purpose: a transform left on a page wrapper
+   would turn it into the containing block for `position: fixed` modals. */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.page-enter > * {
+  animation: page-enter 0.35s ease-out;
+}
+.fade-in {
+  animation: fade-in 0.25s ease-out;
+}
+/* The route loader only shows up if loading takes a moment, so quick
+   navigations don't flash it. */
+.loader-delayed {
+  animation: fade-in 0.3s ease-out 0.15s backwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-enter > *,
+  .fade-in,
+  .loader-delayed {
+    animation: none;
+  }
 }
 
 /* react-big-calendar brand overrides. The toolbar itself is fully replaced
    (see EventCalendar.tsx's BrandToolbar) - this just retints the grid so
    the default blue "today" highlight and gray borders match the palette. */
 .rbc-calendar .rbc-today {
-  background-color: rgba(244, 185, 66, 0.14); /* Sun Gold tint */
+  background-color: rgba(251, 146, 60, 0.12); /* saffron-400 tint */
 }
 .rbc-calendar .rbc-off-range-bg {
-  background-color: rgba(221, 235, 236, 0.5); /* River Mist tint */
+  background-color: rgba(255, 247, 237, 0.8); /* saffron-50 */
 }
 .rbc-calendar .rbc-header {
   padding: 8px 4px;
-  font-family: var(--font-montserrat);
-  font-weight: 700;
-  color: #17133d;
-  border-color: #ddebec;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: #641b0e;
+  border-color: #ffedd5;
 }
 .rbc-calendar .rbc-month-view,
 .rbc-calendar .rbc-time-view,
@@ -65,12 +286,24 @@
 .rbc-calendar .rbc-day-bg,
 .rbc-calendar .rbc-header,
 .rbc-calendar .rbc-time-header,
-.rbc-calendar .rbc-time-content {
-  border-color: #ddebec;
+.rbc-calendar .rbc-time-content,
+.rbc-calendar .rbc-timeslot-group,
+.rbc-calendar .rbc-time-header-content,
+.rbc-calendar .rbc-day-slot .rbc-time-slot {
+  border-color: #ffedd5;
+}
+.rbc-calendar .rbc-month-view,
+.rbc-calendar .rbc-time-view {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.rbc-calendar .rbc-date-cell.rbc-now > button {
+  font-weight: 700;
+  color: #c2410c;
 }
 .rbc-calendar .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
-  font-family: var(--font-montserrat);
-  font-weight: 700;
-  color: #17133d;
-  border-color: #ddebec;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: #641b0e;
+  border-color: #ffedd5;
 }

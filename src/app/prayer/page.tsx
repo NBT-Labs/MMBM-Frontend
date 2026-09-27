@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Music } from "lucide-react";
 import { getConfig } from "@/lib/api";
 import PrayerBookingForm from "@/components/PrayerBookingForm";
 import RichText from "@/components/RichText";
+import PageHero from "@/components/PageHero";
+import IconTile from "@/components/IconTile";
 
 export const metadata: Metadata = { title: "Book a Prayer - MMBMA" };
 
@@ -16,68 +19,69 @@ export default async function PrayerPage() {
   const config = await getConfig();
 
   return (
-    <div className="mx-auto max-w-[1280px] px-6 py-14">
-      <p className="mb-2 font-display text-xs font-bold uppercase tracking-widest text-teal">
-        Book a Prayer
-      </p>
-      <h1 className="mb-4 text-3xl md:text-4xl">Request a Prayer</h1>
-      <RichText
-        html={config?.prayer_intro || DEFAULT_PRAYER_INTRO}
-        className="mb-8 max-w-2xl text-ink/80 [&_p]:mb-3 [&_ul]:list-disc [&_ul]:pl-5"
-      />
+    <>
+      <PageHero eyebrow="Book a Prayer" title="Request a Prayer">
+        <RichText
+          html={config?.prayer_intro || DEFAULT_PRAYER_INTRO}
+          className="[&_p]:mb-3 [&_p:last-child]:mb-0 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
+        />
+      </PageHero>
 
-      <div className="grid gap-10 md:grid-cols-[minmax(0,320px)_1fr]">
-        <section>
-          <h2 className="mb-3 text-xl">What to Expect</h2>
-          <RichText
-            html={config?.prayer_expectations || DEFAULT_PRAYER_EXPECTATIONS}
-            className="mb-3 text-sm text-ink/80 [&_li]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
-          />
-          <ul className="space-y-3 text-sm text-ink/80">
-            <li>
+      <section className="py-16 md:py-20">
+        <div className="mx-auto grid max-w-[1152px] gap-12 px-6 md:grid-cols-[2fr_3fr]">
+          <div>
+            <h2 className="text-[26px]">What to Expect</h2>
+            <RichText
+              html={config?.prayer_expectations || DEFAULT_PRAYER_EXPECTATIONS}
+              className="mt-3 text-stone-600 [&_li]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
+            />
+            <p className="mt-4 text-stone-600">
               For urgent matters, call{" "}
               {config?.contact_phone ? (
-                <span className="font-semibold text-indigo">{config.contact_phone}</span>
+                <span className="font-semibold text-maroon-800">{config.contact_phone}</span>
               ) : (
-                <Link href="/contact" className="text-teal hover:underline">
+                <Link href="/contact" className="font-semibold text-saffron-700 hover:underline">
                   us directly
                 </Link>
               )}{" "}
               rather than waiting on the form.
-            </li>
-          </ul>
+            </p>
 
-          {config?.chanting_join_link && (
-            <div className="mt-6 rounded-brand bg-mist p-4 text-sm">
-              <p className="font-semibold text-indigo">Weekly Ramcharitmanas Chanting</p>
-              <p className="mt-1 text-ink/80">
-                Join our regular chanting sessions - no booking required.
-              </p>
-              <a
-                href={config.chanting_join_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 inline-block font-display text-sm font-bold text-teal hover:underline"
-              >
-                Join the chanting &rarr;
-              </a>
-            </div>
-          )}
+            {config?.chanting_join_link && (
+              <div className="mt-8 rounded-2xl bg-linear-to-br from-maroon-800 to-saffron-700 p-6 text-white shadow-[0_8px_20px_rgba(0,0,0,0.15)]">
+                <IconTile icon={Music} variant="glass" />
+                <p className="mt-4 font-serif text-xl text-white">
+                  Weekly Ramcharitmanas Chanting
+                </p>
+                <p className="mt-1 text-sm text-saffron-100/90">
+                  Join our regular chanting sessions - no booking required.
+                </p>
+                <a
+                  href={config.chanting_join_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-light mt-5 px-5 py-2.5"
+                >
+                  Join the chanting &rarr;
+                </a>
+              </div>
+            )}
 
-          <p className="mt-6 text-sm text-ink/70">
-            Have a general question instead?{" "}
-            <Link href="/contact" className="text-teal hover:underline">
-              Send us a message
-            </Link>
-            .
-          </p>
-        </section>
+            <p className="mt-8 text-sm text-stone-600">
+              Have a general question instead?{" "}
+              <Link href="/contact" className="font-semibold text-saffron-700 hover:underline">
+                Send us a message
+              </Link>
+              .
+            </p>
+          </div>
 
-        <section>
-          <h2 className="mb-3 text-xl">Prayer Request Form</h2>
-          <PrayerBookingForm />
-        </section>
-      </div>
-    </div>
+          <div className="form-box">
+            <h2 className="mb-6 text-[26px]">Prayer Request Form</h2>
+            <PrayerBookingForm />
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

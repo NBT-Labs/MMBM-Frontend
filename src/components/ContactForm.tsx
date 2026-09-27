@@ -63,16 +63,16 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-brand bg-mist p-6" role="status">
-        <p className="font-display text-lg font-bold text-indigo">Message sent - thank you.</p>
-        <p className="mt-2 text-sm text-ink/80">
+      <div className="rounded-2xl border border-saffron-100 bg-saffron-50 p-6" role="status">
+        <p className="font-serif text-lg font-semibold text-maroon-800">Message sent - thank you.</p>
+        <p className="mt-2 text-sm text-stone-600">
           We read every message and aim to reply within a few days. If your enquiry is
           urgent, please use the phone number above instead.
         </p>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-4 font-display text-sm font-bold text-teal hover:underline"
+          className="mt-4 text-sm font-semibold text-saffron-700 hover:underline"
         >
           Send another message
         </button>
@@ -86,7 +86,7 @@ export default function ContactForm() {
         <div
           id={errorSummaryId}
           role="alert"
-          className="mb-4 rounded-brand border border-coral bg-coral/10 px-4 py-3 text-sm text-coral"
+          className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
         >
           {formError}
         </div>
@@ -103,8 +103,8 @@ export default function ContactForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor={nameId} className="mb-1 block text-sm font-semibold text-indigo">
-            Name <span className="text-coral">*</span>
+          <label htmlFor={nameId} className="form-label">
+            Name <span className="text-saffron-600">*</span>
           </label>
           <input
             id={nameId}
@@ -114,18 +114,18 @@ export default function ContactForm() {
             autoComplete="name"
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? `${nameId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           />
           {errors.name && (
-            <p id={`${nameId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${nameId}-error`} className="mt-1 text-sm text-red-700">
               {errors.name}
             </p>
           )}
         </div>
 
         <div>
-          <label htmlFor={emailId} className="mb-1 block text-sm font-semibold text-indigo">
-            Email <span className="text-coral">*</span>
+          <label htmlFor={emailId} className="form-label">
+            Email <span className="text-saffron-600">*</span>
           </label>
           <input
             id={emailId}
@@ -136,10 +136,10 @@ export default function ContactForm() {
             inputMode="email"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? `${emailId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           />
           {errors.email && (
-            <p id={`${emailId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${emailId}-error`} className="mt-1 text-sm text-red-700">
               {errors.email}
             </p>
           )}
@@ -147,8 +147,8 @@ export default function ContactForm() {
       </div>
 
       <div className="mt-4">
-        <label htmlFor={phoneId} className="mb-1 block text-sm font-semibold text-indigo">
-          Phone <span className="text-ink/50">(optional)</span>
+        <label htmlFor={phoneId} className="form-label">
+          Phone <span className="text-stone-400">(optional)</span>
         </label>
         <input
           id={phoneId}
@@ -156,13 +156,13 @@ export default function ContactForm() {
           type="tel"
           autoComplete="tel"
           inputMode="tel"
-          className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none sm:w-1/2"
+          className="form-input sm:w-1/2"
         />
       </div>
 
       <div className="mt-4">
-        <label htmlFor={messageId} className="mb-1 block text-sm font-semibold text-indigo">
-          Message <span className="text-coral">*</span>
+        <label htmlFor={messageId} className="form-label">
+          Message <span className="text-saffron-600">*</span>
         </label>
         <textarea
           id={messageId}
@@ -171,10 +171,10 @@ export default function ContactForm() {
           rows={5}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? `${messageId}-error` : undefined}
-          className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+          className="form-input"
         />
         {errors.message && (
-          <p id={`${messageId}-error`} className="mt-1 text-sm text-coral">
+          <p id={`${messageId}-error`} className="mt-1 text-sm text-red-700">
             {errors.message}
           </p>
         )}
@@ -188,22 +188,22 @@ export default function ContactForm() {
           value="yes"
           aria-invalid={Boolean(errors.consent)}
           aria-describedby={errors.consent ? `${consentId}-error` : undefined}
-          className="mt-1 h-4 w-4 shrink-0 rounded border-mist text-teal focus:outline-none"
+          className="mt-1 h-4 w-4 shrink-0 accent-saffron-600"
         />
-        <label htmlFor={consentId} className="text-sm text-ink/80">
+        <label htmlFor={consentId} className="text-sm text-stone-600">
           I authorize the Montreal Mauritian Bajrang Mandal Association to contact me by
           email or phone regarding this message, in accordance with Quebec&apos;s{" "}
           <span className="whitespace-nowrap">Law 25</span>.{" "}
-          <span className="text-coral">*</span>
+          <span className="text-saffron-600">*</span>
         </label>
       </div>
       {errors.consent && (
-        <p id={`${consentId}-error`} className="mt-1 text-sm text-coral">
+        <p id={`${consentId}-error`} className="mt-1 text-sm text-red-700">
           {errors.consent}
         </p>
       )}
 
-      <p className="mt-3 text-xs text-ink/60">
+      <p className="mt-3 text-xs text-stone-500">
         We only use these details to respond to your message - they're not shared with
         anyone else or added to any mailing list.
       </p>
@@ -211,7 +211,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-4 rounded-brand bg-gold px-6 py-3 font-display text-sm font-bold text-indigo hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn btn-saffron mt-6"
       >
         {status === "submitting" ? "Sending..." : "Send Message"}
       </button>

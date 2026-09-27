@@ -65,9 +65,9 @@ export default function PrayerBookingForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-brand bg-mist p-6" role="status">
-        <p className="font-display text-lg font-bold text-indigo">Request received - thank you.</p>
-        <p className="mt-2 text-sm text-ink/80">
+      <div className="rounded-2xl border border-saffron-100 bg-saffron-50 p-6" role="status">
+        <p className="font-serif text-lg font-semibold text-maroon-800">Request received - thank you.</p>
+        <p className="mt-2 text-sm text-stone-600">
           A member of the Mandal will review your prayer request and contact you to confirm
           details. If your request is urgent, please call us using the number on the Contact
           page.
@@ -75,7 +75,7 @@ export default function PrayerBookingForm() {
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-4 font-display text-sm font-bold text-teal hover:underline"
+          className="mt-4 text-sm font-semibold text-saffron-700 hover:underline"
         >
           Submit another request
         </button>
@@ -89,7 +89,7 @@ export default function PrayerBookingForm() {
         <div
           id={errorSummaryId}
           role="alert"
-          className="mb-4 rounded-brand border border-coral bg-coral/10 px-4 py-3 text-sm text-coral"
+          className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
         >
           {formError}
         </div>
@@ -102,8 +102,8 @@ export default function PrayerBookingForm() {
 
       <div className="grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor={nameId} className="mb-1 block text-sm font-semibold text-indigo">
-            Name <span className="text-coral">*</span>
+          <label htmlFor={nameId} className="form-label">
+            Name <span className="text-saffron-600">*</span>
           </label>
           <input
             id={nameId}
@@ -113,18 +113,18 @@ export default function PrayerBookingForm() {
             autoComplete="name"
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? `${nameId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           />
           {errors.name && (
-            <p id={`${nameId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${nameId}-error`} className="mt-1 text-sm text-red-700">
               {errors.name}
             </p>
           )}
         </div>
 
         <div>
-          <label htmlFor={emailId} className="mb-1 block text-sm font-semibold text-indigo">
-            Email <span className="text-coral">*</span>
+          <label htmlFor={emailId} className="form-label">
+            Email <span className="text-saffron-600">*</span>
           </label>
           <input
             id={emailId}
@@ -135,10 +135,10 @@ export default function PrayerBookingForm() {
             inputMode="email"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? `${emailId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           />
           {errors.email && (
-            <p id={`${emailId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${emailId}-error`} className="mt-1 text-sm text-red-700">
               {errors.email}
             </p>
           )}
@@ -146,8 +146,8 @@ export default function PrayerBookingForm() {
       </div>
 
       <div className="mt-4">
-        <label htmlFor={phoneId} className="mb-1 block text-sm font-semibold text-indigo">
-          Phone <span className="text-coral">*</span>
+        <label htmlFor={phoneId} className="form-label">
+          Phone <span className="text-saffron-600">*</span>
         </label>
         <input
           id={phoneId}
@@ -158,10 +158,10 @@ export default function PrayerBookingForm() {
           inputMode="tel"
           aria-invalid={Boolean(errors.phone)}
           aria-describedby={errors.phone ? `${phoneId}-error` : undefined}
-          className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none sm:w-1/2"
+          className="form-input sm:w-1/2"
         />
         {errors.phone && (
-          <p id={`${phoneId}-error`} className="mt-1 text-sm text-coral">
+          <p id={`${phoneId}-error`} className="mt-1 text-sm text-red-700">
             {errors.phone}
           </p>
         )}
@@ -169,8 +169,8 @@ export default function PrayerBookingForm() {
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         <div>
-          <label htmlFor={prayerTypeId} className="mb-1 block text-sm font-semibold text-indigo">
-            Type of Prayer <span className="text-coral">*</span>
+          <label htmlFor={prayerTypeId} className="form-label">
+            Type of Prayer <span className="text-saffron-600">*</span>
           </label>
           <select
             id={prayerTypeId}
@@ -179,7 +179,7 @@ export default function PrayerBookingForm() {
             defaultValue=""
             aria-invalid={Boolean(errors.prayer_type)}
             aria-describedby={errors.prayer_type ? `${prayerTypeId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           >
             <option value="" disabled>
               Select a prayer type
@@ -191,15 +191,15 @@ export default function PrayerBookingForm() {
             ))}
           </select>
           {errors.prayer_type && (
-            <p id={`${prayerTypeId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${prayerTypeId}-error`} className="mt-1 text-sm text-red-700">
               {errors.prayer_type}
             </p>
           )}
         </div>
 
         <div>
-          <label htmlFor={preferredDateId} className="mb-1 block text-sm font-semibold text-indigo">
-            Preferred Date <span className="text-ink/50">(optional)</span>
+          <label htmlFor={preferredDateId} className="form-label">
+            Preferred Date <span className="text-stone-400">(optional)</span>
           </label>
           <input
             id={preferredDateId}
@@ -207,10 +207,10 @@ export default function PrayerBookingForm() {
             type="date"
             aria-invalid={Boolean(errors.preferred_date)}
             aria-describedby={errors.preferred_date ? `${preferredDateId}-error` : undefined}
-            className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+            className="form-input"
           />
           {errors.preferred_date && (
-            <p id={`${preferredDateId}-error`} className="mt-1 text-sm text-coral">
+            <p id={`${preferredDateId}-error`} className="mt-1 text-sm text-red-700">
               {errors.preferred_date}
             </p>
           )}
@@ -218,15 +218,15 @@ export default function PrayerBookingForm() {
       </div>
 
       <div className="mt-4">
-        <label htmlFor={notesId} className="mb-1 block text-sm font-semibold text-indigo">
-          Notes / Special Requests <span className="text-ink/50">(optional)</span>
+        <label htmlFor={notesId} className="form-label">
+          Notes / Special Requests <span className="text-stone-400">(optional)</span>
         </label>
         <textarea
           id={notesId}
           name="notes"
           rows={4}
           placeholder="Any details we should know - occasion, language preference, etc."
-          className="w-full rounded-brand border border-mist px-3 py-2 text-sm focus:border-teal focus:outline-none"
+          className="form-input"
         />
       </div>
 
@@ -238,22 +238,22 @@ export default function PrayerBookingForm() {
           value="yes"
           aria-invalid={Boolean(errors.consent)}
           aria-describedby={errors.consent ? `${consentId}-error` : undefined}
-          className="mt-1 h-4 w-4 shrink-0 rounded border-mist text-teal focus:outline-none"
+          className="mt-1 h-4 w-4 shrink-0 accent-saffron-600"
         />
-        <label htmlFor={consentId} className="text-sm text-ink/80">
+        <label htmlFor={consentId} className="text-sm text-stone-600">
           I authorize the Montreal Mauritian Bajrang Mandal Association to contact me by
           email or phone regarding this prayer request, in accordance with Quebec&apos;s{" "}
           <span className="whitespace-nowrap">Law 25</span>.{" "}
-          <span className="text-coral">*</span>
+          <span className="text-saffron-600">*</span>
         </label>
       </div>
       {errors.consent && (
-        <p id={`${consentId}-error`} className="mt-1 text-sm text-coral">
+        <p id={`${consentId}-error`} className="mt-1 text-sm text-red-700">
           {errors.consent}
         </p>
       )}
 
-      <p className="mt-3 text-xs text-ink/60">
+      <p className="mt-3 text-xs text-stone-500">
         We only use these details to follow up on your prayer request - they&apos;re not
         shared with anyone else or added to any mailing list.
       </p>
@@ -261,7 +261,7 @@ export default function PrayerBookingForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-4 rounded-brand bg-gold px-6 py-3 font-display text-sm font-bold text-indigo hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+        className="btn btn-saffron mt-6"
       >
         {status === "submitting" ? "Submitting..." : "Submit Prayer Request"}
       </button>

@@ -1,9 +1,10 @@
 # MMBMA Website
 
-Next.js (App Router) site for the Montreal Mauritian Bajrang Mandal Association, built on
-the Option B brand system (`MMBMA_Brand_Identity_Option_B.pdf`). All content comes from
-the `MMBM-Backend` Odoo instance's public JSON API - no CMS/build step needed there beyond
-editing records in Odoo.
+Next.js (App Router) site for the Montreal Mauritian Bajrang Mandal Association. The look
+(saffron + maroon on warm cream, Georgia headings, pill buttons) follows the client's
+reference site; the earlier Option B brand system (`MMBMA_Brand_Identity_Option_B.pdf`) is
+kept for reference only. All content comes from the `MMBM-Backend` Odoo instance's public
+JSON API - no CMS/build step needed there beyond editing records in Odoo.
 
 > Note: there's a stray `favicon_src.ico` at the repo root - leftover from scaffolding,
 > safe to delete (`rm favicon_src.ico`). The real favicon lives at `src/app/favicon.ico`.
@@ -12,8 +13,9 @@ editing records in Odoo.
 
 Scaffolded with the official `create-next-app` (App Router, TypeScript, Tailwind, `src/`
 dir, `@/*` import alias) on **Next.js 16 / React 19 / Tailwind v4**. Tailwind v4 moves
-theme config into CSS - the brand colors/fonts/radius live in `src/app/globals.css`'s
-`@theme` block rather than a `tailwind.config.ts` file.
+theme config into CSS - the palette and fonts live in `src/app/globals.css`'s `@theme`
+block (plus shared `.btn`, `.card`, `.eyebrow`... classes) rather than a
+`tailwind.config.ts` file.
 
 - Deploys to Vercel's free tier with zero config.
 - **react-big-calendar** for the Events page calendar (color-coded by type, click for a

@@ -1,42 +1,53 @@
 "use client";
 
 import { useState } from "react";
+import { Clock, MapPin } from "lucide-react";
 import type { MmbmEvent } from "@/lib/types";
 import EventModal from "./EventModal";
-
-function formatDate(iso: string | null) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString(undefined, {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-  });
-}
+import EventDateBadge, { formatEventTime } from "./EventDateBadge";
 
 export default function FeaturedEvents({ events }: { events: MmbmEvent[] }) {
   const [selected, setSelected] = useState<MmbmEvent | null>(null);
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {events.map((event) => (
           <button
             key={event.id}
             type="button"
             onClick={() => setSelected(event)}
-            className="cursor-pointer rounded-brand border border-mist bg-white p-5 text-left shadow-sm transition-shadow hover:shadow-md"
+            className="card card-hover flex cursor-pointer items-start gap-4 text-left"
           >
-            <span
-              className="mb-2 inline-block rounded-brand px-2 py-1 text-xs font-bold text-white"
-              style={{ backgroundColor: event.color }}
-            >
-              {event.event_type_label}
-            </span>
-            <p className="font-display text-3xl font-extrabold text-indigo">
-              {formatDate(event.date_start)}
-            </p>
-            <p className="mt-1 font-semibold">{event.title}</p>
-            {event.location && <p className="mt-1 text-sm text-ink/60">{event.location}</p>}
+            <EventDateBadge iso={event.date_start} />
+            <div className="min-w-0">
+              <div className="flex flex-wrap gap-1.5">
+                <span className="tag">
+                  <span
+                    className="h-2 w-2 rounded-full"
+                    style={{ backgroundColor: event.color }}
+                    aria-hidden="true"
+                  />
+                  {event.event_type_label}
+                </span>
+                <span className="tag tag-maroon">★ Featured</span>
+              </div>
+              <h3 className="mt-2 text-lg">{event.title}</h3>
+              <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-stone-500">
+                {event.date_start && (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Clock size={14} className="shrink-0 text-saffron-600" aria-hidden="true" />
+                    {formatEventTime(event.date_start)}
+                  </span>
+                )}
+                {event.location && (
+                  <span className="inline-flex items-center gap-1.5">
+                    <MapPin size={14} className="shrink-0 text-saffron-600" aria-hidden="true" />
+                    {event.location}
+                  </span>
+                )}
+              </div>
+            </div>
           </button>
         ))}
       </div>

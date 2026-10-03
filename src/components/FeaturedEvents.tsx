@@ -4,7 +4,8 @@ import { useState } from "react";
 import { Clock, MapPin } from "lucide-react";
 import type { MmbmEvent } from "@/lib/types";
 import EventModal from "./EventModal";
-import EventDateBadge, { formatEventTime } from "./EventDateBadge";
+import { formatEventTimeRange } from "@/lib/datetime";
+import EventDateBadge from "./EventDateBadge";
 
 export default function FeaturedEvents({ events }: { events: MmbmEvent[] }) {
   const [selected, setSelected] = useState<MmbmEvent | null>(null);
@@ -37,7 +38,7 @@ export default function FeaturedEvents({ events }: { events: MmbmEvent[] }) {
                 {event.date_start && (
                   <span className="inline-flex items-center gap-1.5">
                     <Clock size={14} className="shrink-0 text-saffron-600" aria-hidden="true" />
-                    {formatEventTime(event.date_start)}
+                    {formatEventTimeRange(event.date_start, event.date_end)}
                   </span>
                 )}
                 {event.location && (

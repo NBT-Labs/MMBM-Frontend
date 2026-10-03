@@ -146,24 +146,25 @@ export default function EventCalendar({
 
   return (
     <div>
-      <div className="card p-2 md:p-5">
+      <div className="card overflow-hidden p-3 md:p-6">
         <Calendar
           localizer={localizer}
           events={calendarEvents}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 640 }}
+          style={{ height: 680 }}
           date={date}
           view={view}
           onNavigate={setDate}
           onView={setView}
+          popup
           components={{ toolbar: BrandToolbar }}
           eventPropGetter={(event) => {
             const e = (event as CalendarEvent).resource;
             return {
               style: {
                 backgroundColor: e.color,
-                borderRadius: 6,
+                borderRadius: 7,
                 border: "none",
                 color: "#fff",
               },

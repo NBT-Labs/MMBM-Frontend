@@ -11,6 +11,7 @@ import {
 import { getConfig, getEvents } from "@/lib/api";
 import RichText from "@/components/RichText";
 import FeaturedEvents from "@/components/FeaturedEvents";
+import HomeVideoBand from "@/components/HomeVideoBand";
 import IconTile from "@/components/IconTile";
 
 const WAYS_TO_PARTICIPATE = [
@@ -192,6 +193,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeVideoBand />
 
       {config?.mission_statement && (
         <section className="py-20">

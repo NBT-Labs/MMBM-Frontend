@@ -1,6 +1,7 @@
 "use client";
 
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { formatEventClockRange, formatEventDay } from "@/lib/datetime";
 import type { MmbmEvent } from "@/lib/types";
 
 // Shared between EventCalendar (click an event on the grid) and the Home
@@ -57,13 +58,24 @@ export default function EventModal({
           />
         )}
 
-        <p className="mb-1.5 flex items-center gap-2 text-sm text-stone-600">
-          <CalendarDays size={16} className="shrink-0 text-saffron-600" aria-hidden="true" />
-          {new Date(event.date_start as string).toLocaleString(undefined, {
-            dateStyle: "full",
-            timeStyle: "short",
-          })}
-        </p>
+        {event.date_start && (
+          <div className="mb-1.5 space-y-1.5 text-sm text-stone-600">
+            <p className="flex items-start gap-2">
+              <CalendarDays size={16} className="mt-0.5 shrink-0 text-saffron-600" aria-hidden="true" />
+              <span>
+                <span className="font-semibold text-stone-700">Day:</span>{" "}
+                {formatEventDay(event.date_start, event.date_end)}
+              </span>
+            </p>
+            <p className="flex items-start gap-2">
+              <Clock size={16} className="mt-0.5 shrink-0 text-saffron-600" aria-hidden="true" />
+              <span>
+                <span className="font-semibold text-stone-700">Time:</span>{" "}
+                {formatEventClockRange(event.date_start, event.date_end)}
+              </span>
+            </p>
+          </div>
+        )}
         {event.location && (
           <p className="mb-3 flex items-center gap-2 text-sm text-stone-600">
             <MapPin size={16} className="shrink-0 text-saffron-600" aria-hidden="true" />

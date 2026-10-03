@@ -35,6 +35,8 @@ function AnnouncementCard({ announcement }: { announcement: Announcement }) {
       {announcement.link_url && (
         <a
           href={announcement.link_url}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-2 self-start text-sm font-semibold text-saffron-700 hover:underline"
         >
           {announcement.link_label || "View details"} &rarr;

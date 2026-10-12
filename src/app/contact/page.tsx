@@ -58,12 +58,12 @@ export default async function ContactPage() {
                   aria-hidden="true"
                 />
                 <span>
-                  Looking to arrange a Puja or chanting?{" "}
+                  Interested in joining the Mandal?{" "}
                   <Link
-                    href="/prayer"
+                    href="/member-request"
                     className="inline-flex items-center gap-1 font-semibold text-saffron-700 hover:underline"
                   >
-                    Book a prayer
+                    Become a member
                     <ArrowRight size={14} aria-hidden="true" />
                   </Link>
                 </span>

@@ -2,27 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Music } from "lucide-react";
 import { getConfig } from "@/lib/api";
-import PrayerBookingForm from "@/components/PrayerBookingForm";
+import MemberRequestForm from "@/components/MemberRequestForm";
 import RichText from "@/components/RichText";
 import PageHero from "@/components/PageHero";
 import IconTile from "@/components/IconTile";
 
-export const metadata: Metadata = { title: "Book a Prayer - MMBMA" };
+export const metadata: Metadata = { title: "Become a Member - MMBMA" };
 
-const DEFAULT_PRAYER_INTRO =
-  "<p>Whether you'd like to arrange a Puja, Hanuman Chalisa, or Ramcharitmanas chanting, fill in the form below and a member of the Mandal will reach out to confirm the details.</p>";
+const DEFAULT_MEMBER_INTRO =
+  "<p>Interested in joining the Mandal? Fill in the form below and a member will reach out to welcome you and confirm the details.</p>";
 
-const DEFAULT_PRAYER_EXPECTATIONS =
-  "<ul><li>Submit your request with your preferred date and any special notes.</li><li>A Mandal member will contact you to confirm availability and arrangements.</li></ul>";
+const DEFAULT_MEMBER_EXPECTATIONS =
+  "<ul><li>Submit your request with your contact details and any notes.</li><li>A Mandal member will contact you to confirm and welcome you.</li></ul>";
 
-export default async function PrayerPage() {
+export default async function MemberRequestPage() {
   const config = await getConfig();
 
   return (
     <>
-      <PageHero eyebrow="Book a Prayer" title="Request a Prayer">
+      <PageHero eyebrow="Join the Mandal" title="Become a Member">
         <RichText
-          html={config?.prayer_intro || DEFAULT_PRAYER_INTRO}
+          html={config?.member_intro || DEFAULT_MEMBER_INTRO}
           className="[&_p]:mb-3 [&_p:last-child]:mb-0 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:text-left"
         />
       </PageHero>
@@ -32,7 +32,7 @@ export default async function PrayerPage() {
           <div>
             <h2 className="text-[26px]">What to Expect</h2>
             <RichText
-              html={config?.prayer_expectations || DEFAULT_PRAYER_EXPECTATIONS}
+              html={config?.member_expectations || DEFAULT_MEMBER_EXPECTATIONS}
               className="mt-3 text-stone-600 [&_li]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
             />
             <p className="mt-4 text-stone-600">
@@ -77,8 +77,8 @@ export default async function PrayerPage() {
           </div>
 
           <div className="form-box">
-            <h2 className="mb-6 text-[26px]">Prayer Request Form</h2>
-            <PrayerBookingForm />
+            <h2 className="mb-6 text-[26px]">Membership Form</h2>
+            <MemberRequestForm />
           </div>
         </div>
       </section>

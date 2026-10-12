@@ -31,7 +31,7 @@ const WAYS_TO_PARTICIPATE = [
     label: "Chant",
     icon: Music,
     text: "Hanuman Chalisa and Ramcharitmanas chanting, every week.",
-    href: "/prayer",
+    href: "/member-request",
   },
   {
     label: "Volunteer",
@@ -40,10 +40,10 @@ const WAYS_TO_PARTICIPATE = [
     href: "/contact",
   },
   {
-    label: "Book",
+    label: "Join",
     icon: CalendarCheck,
-    text: "Request a puja or chanting for your family.",
-    href: "/prayer",
+    text: "Become a member and connect with the Mandal.",
+    href: "/member-request",
   },
   {
     label: "Give",
@@ -224,7 +224,7 @@ export default async function HomePage() {
             Become Part of Our Mandal Parivar 🙏
           </h2>
           <p className="mx-auto mt-4 max-w-[620px] text-saffron-100/90">
-            Whether you wish to attend aarti, volunteer for seva, book a prayer or simply learn
+            Whether you wish to attend aarti, volunteer for seva, become a member or simply learn
             more — we would love to welcome you into our family.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
@@ -241,8 +241,8 @@ export default async function HomePage() {
                 Support with Seva / Donation
               </a>
             ) : (
-              <Link href="/prayer" className="btn btn-ghost">
-                Book a Prayer
+              <Link href="/member-request" className="btn btn-ghost">
+                Become a Member
               </Link>
             )}
           </div>

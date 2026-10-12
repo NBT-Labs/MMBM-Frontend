@@ -2,13 +2,12 @@
 
 import { useId, useState } from "react";
 import { PUBLIC_API_BASE_URL } from "@/lib/api";
-import { PRAYER_TYPE_OPTIONS } from "@/lib/types";
 
 type FieldErrors = Partial<
-  Record<"name" | "email" | "phone" | "prayer_type" | "preferred_date" | "notes" | "consent", string>
+  Record<"name" | "email" | "phone" | "notes" | "consent", string>
 >;
 
-export default function PrayerBookingForm() {
+export default function MemberRequestForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
@@ -16,8 +15,6 @@ export default function PrayerBookingForm() {
   const nameId = useId();
   const emailId = useId();
   const phoneId = useId();
-  const prayerTypeId = useId();
-  const preferredDateId = useId();
   const notesId = useId();
   const consentId = useId();
   const errorSummaryId = useId();
@@ -38,7 +35,7 @@ export default function PrayerBookingForm() {
     }
 
     try {
-      const res = await fetch(`${PUBLIC_API_BASE_URL}/api/mmbm/prayer`, {
+      const res = await fetch(`${PUBLIC_API_BASE_URL}/api/mmbm/member`, {
         method: "POST",
         body: new URLSearchParams(Object.fromEntries(data) as Record<string, string>),
       });
@@ -68,7 +65,7 @@ export default function PrayerBookingForm() {
       <div className="rounded-2xl border border-saffron-100 bg-saffron-50 p-6" role="status">
         <p className="font-serif text-lg font-semibold text-maroon-800">Request received - thank you.</p>
         <p className="mt-2 text-sm text-stone-600">
-          A member of the Mandal will review your prayer request and contact you to confirm
+          A member of the Mandal will review your member request and contact you to confirm
           details. If your request is urgent, please call us using the number on the Contact
           page.
         </p>
@@ -167,56 +164,6 @@ export default function PrayerBookingForm() {
         )}
       </div>
 
-      <div className="mt-4 grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor={prayerTypeId} className="form-label">
-            Type of Prayer <span className="text-saffron-600">*</span>
-          </label>
-          <select
-            id={prayerTypeId}
-            name="prayer_type"
-            required
-            defaultValue=""
-            aria-invalid={Boolean(errors.prayer_type)}
-            aria-describedby={errors.prayer_type ? `${prayerTypeId}-error` : undefined}
-            className="form-input"
-          >
-            <option value="" disabled>
-              Select a prayer type
-            </option>
-            {PRAYER_TYPE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          {errors.prayer_type && (
-            <p id={`${prayerTypeId}-error`} className="mt-1 text-sm text-red-700">
-              {errors.prayer_type}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor={preferredDateId} className="form-label">
-            Preferred Date <span className="text-stone-400">(optional)</span>
-          </label>
-          <input
-            id={preferredDateId}
-            name="preferred_date"
-            type="date"
-            aria-invalid={Boolean(errors.preferred_date)}
-            aria-describedby={errors.preferred_date ? `${preferredDateId}-error` : undefined}
-            className="form-input"
-          />
-          {errors.preferred_date && (
-            <p id={`${preferredDateId}-error`} className="mt-1 text-sm text-red-700">
-              {errors.preferred_date}
-            </p>
-          )}
-        </div>
-      </div>
-
       <div className="mt-4">
         <label htmlFor={notesId} className="form-label">
           Notes / Special Requests <span className="text-stone-400">(optional)</span>
@@ -225,7 +172,7 @@ export default function PrayerBookingForm() {
           id={notesId}
           name="notes"
           rows={4}
-          placeholder="Any details we should know - occasion, language preference, etc."
+          placeholder="Any details we should know - how you found us, family members joining, etc."
           className="form-input"
         />
       </div>
@@ -242,7 +189,7 @@ export default function PrayerBookingForm() {
         />
         <label htmlFor={consentId} className="text-sm text-stone-600">
           I authorize the Montreal Mauritian Bajrang Mandal Association to contact me by
-          email or phone regarding this prayer request, in accordance with Quebec&apos;s{" "}
+          email or phone regarding this member request, in accordance with Quebec&apos;s{" "}
           <span className="whitespace-nowrap">Law 25</span>.{" "}
           <span className="text-saffron-600">*</span>
         </label>
@@ -254,7 +201,7 @@ export default function PrayerBookingForm() {
       )}
 
       <p className="mt-3 text-xs text-stone-500">
-        We only use these details to follow up on your prayer request - they&apos;re not
+        We only use these details to follow up on your member request - they&apos;re not
         shared with anyone else or added to any mailing list.
       </p>
 
@@ -263,7 +210,7 @@ export default function PrayerBookingForm() {
         disabled={status === "submitting"}
         className="btn btn-saffron mt-6"
       >
-        {status === "submitting" ? "Submitting..." : "Submit Prayer Request"}
+        {status === "submitting" ? "Submitting..." : "Submit Member Request"}
       </button>
     </form>
   );

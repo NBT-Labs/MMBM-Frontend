@@ -5,6 +5,6 @@ export const NAV_LINKS = [
   { href: "/events", label: "Our Events" },
   { href: "/festivals", label: "Festivals" },
   { href: "/announcements", label: "Announcements" },
-  { href: "/prayer", label: "Book a Prayer" },
+  { href: "/member-request", label: "Become a Member" },
   { href: "/contact", label: "Contact Us" },
 ];

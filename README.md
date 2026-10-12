@@ -74,7 +74,7 @@ changes), since those modules serve the public API routes this site reads:
 - `GET /api/mmbm/events`, `GET /api/mmbm/events/legend`
 - `GET /api/mmbm/festivals`
 - `POST /api/mmbm/contact`
-- `POST /api/mmbm/prayer`
+- `POST /api/mmbm/member`
 
 ## Deploy (Vercel, free tier)
 

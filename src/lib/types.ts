@@ -8,6 +8,7 @@ export interface SiteConfig {
   president_name: string;
   president_message: string;
   vision_objectives: string;
+  core_values: string;
   contact_email: string;
   contact_phone: string;
   contact_address: string;

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Network, Quote, Sunrise } from "lucide-react";
+import { ArrowRight, Flame, HeartHandshake, Network, Quote, Sunrise } from "lucide-react";
 import { getConfig } from "@/lib/api";
 import RichText from "@/components/RichText";
 import PageHero from "@/components/PageHero";
@@ -12,7 +12,29 @@ export const metadata: Metadata = { title: "About Us - MMBMA" };
 export default async function AboutPage() {
   const config = await getConfig();
   const contactMethods = getContactMethods(config);
-  const hasBoth = Boolean(config?.president_message && config?.vision_objectives);
+  const missionVisionValues = [
+    config?.mission_statement && {
+      key: "mission",
+      title: "Our Mission",
+      blurb: "What guides the Mandal each day.",
+      html: config.mission_statement,
+      icon: Flame,
+    },
+    config?.vision_objectives && {
+      key: "vision",
+      title: "Vision & Objectives",
+      blurb: "What the Mandal is working towards.",
+      html: config.vision_objectives,
+      icon: Sunrise,
+    },
+    config?.core_values && {
+      key: "values",
+      title: "Our Core Values",
+      blurb: "The principles we hold together.",
+      html: config.core_values,
+      icon: HeartHandshake,
+    },
+  ].filter((item): item is NonNullable<typeof item> => Boolean(item));
 
   return (
     <>
@@ -67,56 +89,65 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {(config?.president_message || config?.vision_objectives) && (
+      {config?.president_message && (
         <section className="border-y border-saffron-100 bg-white py-20">
-          <div
-            className={`mx-auto grid max-w-[1152px] items-start gap-6 px-6 ${
-              hasBoth ? "lg:grid-cols-[7fr_5fr]" : ""
-            }`}
-          >
-            {config?.president_message && (
-              <figure className="relative overflow-hidden rounded-3xl border border-saffron-100 bg-linear-to-br from-saffron-50 to-white p-8 md:p-12">
-                <Quote
-                  size={140}
-                  strokeWidth={1}
-                  className="absolute -right-4 -top-6 text-saffron-200/60"
-                  aria-hidden="true"
+          <div className="mx-auto max-w-[1152px] px-6">
+            <figure className="relative overflow-hidden rounded-3xl border border-saffron-100 bg-linear-to-br from-saffron-50 to-white p-8 md:p-12">
+              <Quote
+                size={140}
+                strokeWidth={1}
+                className="absolute -right-4 -top-6 text-saffron-200/60"
+                aria-hidden="true"
+              />
+              <p className="eyebrow relative">A Word of Welcome</p>
+              <h2 className="relative mt-2 text-3xl">Message from the President</h2>
+              <blockquote className="relative mt-6">
+                <RichText
+                  html={config.president_message}
+                  className="font-serif text-lg leading-relaxed text-stone-700 [&_p]:mb-4"
                 />
-                <p className="eyebrow relative">A Word of Welcome</p>
-                <h2 className="relative mt-2 text-3xl">Message from the President</h2>
-                <blockquote className="relative mt-6">
-                  <RichText
-                    html={config.president_message}
-                    className="font-serif text-lg leading-relaxed text-stone-700 [&_p]:mb-4"
-                  />
-                </blockquote>
-                <figcaption className="relative mt-8 flex items-center gap-4">
-                  <span className="h-px w-10 bg-saffron-400" aria-hidden="true" />
-                  <span>
-                    <span className="block font-serif text-lg font-semibold text-maroon-800">
-                      {config.president_name || "The President"}
-                    </span>
-                    <span className="block text-xs uppercase tracking-wider text-stone-500">
-                      President
-                    </span>
+              </blockquote>
+              <figcaption className="relative mt-8 flex items-center gap-4">
+                <span className="h-px w-10 bg-saffron-400" aria-hidden="true" />
+                <span>
+                  <span className="block font-serif text-lg font-semibold text-maroon-800">
+                    {config.president_name || "The President"}
                   </span>
-                </figcaption>
-              </figure>
-            )}
+                  <span className="block text-xs uppercase tracking-wider text-stone-500">
+                    President
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+      )}
 
-            {config?.vision_objectives && (
-              <div className="card p-8 md:p-10">
-                <IconTile icon={Sunrise} variant="solid" />
-                <h3 className="mt-5 text-2xl">Vision &amp; Objectives</h3>
-                <p className="mt-1 text-sm text-stone-500">What the Mandal is working towards.</p>
-                <div className="mt-6 border-t border-saffron-100 pt-6">
-                  <RichText
-                    html={config.vision_objectives}
-                    className="list-check text-stone-600 [&_p]:mb-4"
-                  />
-                </div>
-              </div>
-            )}
+      {missionVisionValues.length > 0 && (
+        <section
+          className={`py-20 ${config?.president_message ? "" : "border-y border-saffron-100 bg-white"}`}
+        >
+          <div className="mx-auto max-w-[1152px] px-6">
+            <div className="divide-y divide-saffron-100">
+              {missionVisionValues.map((item) => (
+                <article
+                  key={item.key}
+                  className="grid gap-8 py-12 first:pt-0 last:pb-0 md:grid-cols-[minmax(0,280px)_minmax(0,1fr)] md:gap-14"
+                >
+                  <header className="md:pt-1">
+                    <IconTile icon={item.icon} variant="solid" />
+                    <h3 className="mt-5 text-2xl md:text-3xl">{item.title}</h3>
+                    <p className="mt-2 text-sm text-stone-500">{item.blurb}</p>
+                  </header>
+                  <div className="border-l-2 border-saffron-200 pl-6 md:pl-8">
+                    <RichText
+                      html={item.html}
+                      className="list-check text-stone-600 [&_li_p]:mb-0 [&_p]:mb-4 [&_p:has(+ul)]:mb-0 [&_p:last-child]:mb-0"
+                    />
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
       )}

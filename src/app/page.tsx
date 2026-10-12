@@ -97,7 +97,6 @@ export default async function HomePage() {
     .slice(0, 3);
 
   const orgName = config?.org_name || "Montreal Mauritian Bajrang Mandal Association";
-  const joinHref = config?.contact_email ? `mailto:${config.contact_email}` : "/contact";
 
   return (
     <>
@@ -124,9 +123,9 @@ export default async function HomePage() {
             <Link href="/events" className="btn btn-saffron">
               See Upcoming Gatherings
             </Link>
-            <SmartLink href={joinHref} className="btn btn-ghost">
+            <Link href="/contact" className="btn btn-ghost">
               Join the Mandal
-            </SmartLink>
+            </Link>
             {config?.donation_link && (
               <a
                 href={config.donation_link}
@@ -195,44 +194,6 @@ export default async function HomePage() {
       </section>
 
       <HomeVideoBand />
-
-      {config?.mission_statement && (
-        <section className="py-20">
-          <div className="mx-auto grid max-w-[1152px] items-center gap-12 px-6 md:grid-cols-2">
-            <div className="relative pb-6">
-              <div className="rounded-3xl bg-linear-to-br from-maroon-800 to-saffron-700 p-10 text-center text-white shadow-[0_16px_40px_rgba(0,0,0,0.2)] md:p-14">
-                <IconTile icon={Flame} variant="glass" size="lg" className="mx-auto" />
-                <p className="mt-6 font-serif text-2xl leading-snug text-saffron-200">
-                  &ldquo;संकट ते हनुमान छुड़ावै, मन क्रम बचन ध्यान जो लावै&rdquo;
-                </p>
-                <p className="mt-4 text-sm text-saffron-100/80">
-                  Hanuman removes all difficulties for those who remember him in thought, word
-                  and deed. — Hanuman Chalisa
-                </p>
-              </div>
-              <span className="absolute bottom-0 right-0 rounded-2xl bg-maroon-800 px-6 py-4 text-white shadow-[0_8px_20px_rgba(0,0,0,0.2)]">
-                <span className="font-serif text-[22px]" aria-hidden="true">
-                  🚩
-                </span>
-                <span className="block text-[11px] uppercase tracking-wider text-saffron-300">
-                  Sankat Mochan
-                </span>
-              </span>
-            </div>
-            <div>
-              <p className="eyebrow">Our Mission</p>
-              <h2 className="section-title">A home for devotion, far from home</h2>
-              <RichText
-                html={config.mission_statement}
-                className="mt-5 text-stone-600 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-5"
-              />
-              <Link href="/about" className="btn btn-saffron mt-7">
-                Read Our Story &rarr;
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
 
       <section className="bg-linear-to-b from-saffron-50 to-cream py-20">
         <div className="mx-auto max-w-[1152px] px-6">

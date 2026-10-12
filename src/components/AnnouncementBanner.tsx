@@ -1,29 +1,11 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import type { Announcement } from "@/lib/types";
-
-const DISMISSED_KEY = "mmbma_dismissed_announcement_id";
 
 export default function AnnouncementBanner({
   announcement,
 }: {
   announcement: Announcement | null;
 }) {
-  const [dismissed, setDismissed] = useState(true);
-
-  useEffect(() => {
-    if (!announcement) return;
-    const dismissedId = window.localStorage.getItem(DISMISSED_KEY);
-    setDismissed(dismissedId === String(announcement.id));
-  }, [announcement]);
-
-  if (!announcement || dismissed) return null;
-
-  const handleDismiss = () => {
-    window.localStorage.setItem(DISMISSED_KEY, String(announcement.id));
-    setDismissed(true);
-  };
+  if (!announcement) return null;
 
   const urgent = announcement.priority === "urgent";
   const hasDescription = Boolean(
@@ -32,7 +14,7 @@ export default function AnnouncementBanner({
 
   return (
     <div className="relative z-50 border-b border-maroon-900/10 bg-[#f5a623] text-maroon-900 shadow-[0_4px_14px_rgba(74,20,9,0.18)]">
-      <div className="mx-auto flex min-h-12 max-w-[1152px] items-center gap-4 px-4 py-3 pr-12 sm:gap-6 sm:px-6 sm:pr-14">
+      <div className="mx-auto flex min-h-12 max-w-[1152px] items-center gap-4 px-4 py-3 sm:gap-6 sm:px-6">
         <span className="inline-flex shrink-0 items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-maroon-800/75">
           {urgent ? (
             <span className="relative flex h-3 w-3 shrink-0" aria-hidden="true">
@@ -76,15 +58,6 @@ export default function AnnouncementBanner({
           </a>
         )}
       </div>
-
-      <button
-        type="button"
-        onClick={handleDismiss}
-        aria-label="Dismiss announcement"
-        className="absolute right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-lg leading-none text-maroon-900/55 transition-colors hover:bg-maroon-900/10 hover:text-maroon-900 sm:right-3"
-      >
-        &times;
-      </button>
     </div>
   );
 }

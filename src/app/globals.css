@@ -176,18 +176,25 @@
   }
 
   /* Lists inside Odoo rich text, shown as saffron check marks instead of
-     plain bullets (About page). The tick is Lucide's "check" path. */
+     plain bullets (About page). The tick is Lucide's "check" path.
+     Odoo often emits <p>heading</p><ul>…</ul> pairs (e.g. Core Values). */
+  .list-check p + ul {
+    margin-top: 0.75rem;
+  }
+  .list-check ul + p {
+    margin-top: 2.5rem;
+  }
   .list-check ul {
     display: grid;
     gap: 0.625rem;
     padding-left: 0;
     list-style: none;
   }
-  .list-check li {
+  .list-check ul > li {
     position: relative;
     padding-left: 1.875rem;
   }
-  .list-check li::before {
+  .list-check ul > li::before {
     content: "";
     position: absolute;
     top: 0.2em;

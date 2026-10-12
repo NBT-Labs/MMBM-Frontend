@@ -36,12 +36,17 @@ export default async function MemberRequestPage() {
               className="mt-3 text-stone-600 [&_li]:mb-2 [&_ul]:list-disc [&_ul]:pl-5"
             />
             <p className="mt-4 text-stone-600">
-              For urgent matters, call{" "}
+              For urgent matters,{" "}
               {config?.contact_phone ? (
-                <span className="font-semibold text-maroon-800">{config.contact_phone}</span>
+                <a
+                  href={`tel:${config.contact_phone.replace(/[^\d+]/g, "")}`}
+                  className="font-semibold text-saffron-700 hover:underline"
+                >
+                  call us directly
+                </a>
               ) : (
                 <Link href="/contact" className="font-semibold text-saffron-700 hover:underline">
-                  us directly
+                  call us directly
                 </Link>
               )}{" "}
               rather than waiting on the form.

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
 import { ArrowRight, Flame, HeartHandshake, Network, Quote, Sunrise } from "lucide-react";
 import { getConfig } from "@/lib/api";
 import RichText from "@/components/RichText";
@@ -10,32 +11,46 @@ import { ContactMethodCard, getContactMethods } from "@/components/ContactMethod
 
 export const metadata: Metadata = { title: "About Us - MMBMA" };
 
+type MissionVisionValue = {
+  key: string;
+  title: string;
+  blurb: string;
+  html: string;
+  icon: LucideIcon;
+};
+
 export default async function AboutPage() {
   const config = await getConfig();
   const contactMethods = getContactMethods(config);
-  const missionVisionValues = [
-    config?.mission_statement && {
-      key: "mission",
-      title: "Our Mission",
-      blurb: "What guides the Mandal each day.",
-      html: config.mission_statement,
-      icon: Flame,
-    },
-    config?.vision_objectives && {
-      key: "vision",
-      title: "Vision & Objectives",
-      blurb: "What the Mandal is working towards.",
-      html: config.vision_objectives,
-      icon: Sunrise,
-    },
-    config?.core_values && {
-      key: "values",
-      title: "Our Core Values",
-      blurb: "The principles we hold together.",
-      html: config.core_values,
-      icon: HeartHandshake,
-    },
-  ].filter((item): item is NonNullable<typeof item> => Boolean(item));
+  const missionVisionValues: MissionVisionValue[] = [
+    config?.mission_statement
+      ? {
+          key: "mission",
+          title: "Our Mission",
+          blurb: "What guides the Mandal each day.",
+          html: config.mission_statement,
+          icon: Flame,
+        }
+      : null,
+    config?.vision_objectives
+      ? {
+          key: "vision",
+          title: "Vision & Objectives",
+          blurb: "What the Mandal is working towards.",
+          html: config.vision_objectives,
+          icon: Sunrise,
+        }
+      : null,
+    config?.core_values
+      ? {
+          key: "values",
+          title: "Our Core Values",
+          blurb: "The principles we hold together.",
+          html: config.core_values,
+          icon: HeartHandshake,
+        }
+      : null,
+  ].filter((item): item is MissionVisionValue => item !== null);
 
   return (
     <>

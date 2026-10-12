@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Flame, HeartHandshake, Network, Quote, Sunrise } from "lucide-react";
 import { getConfig } from "@/lib/api";
 import RichText from "@/components/RichText";
+import LightboxRichText from "@/components/LightboxRichText";
 import PageHero from "@/components/PageHero";
 import IconTile from "@/components/IconTile";
 import { ContactMethodCard, getContactMethods } from "@/components/ContactMethods";
@@ -77,7 +78,7 @@ export default async function AboutPage() {
             </div>
             <div className="mt-6 border-t border-saffron-100 pt-6">
               {config?.org_structure ? (
-                <RichText
+                <LightboxRichText
                   html={config.org_structure}
                   className="list-check text-stone-600 [&_p]:mb-4"
                 />

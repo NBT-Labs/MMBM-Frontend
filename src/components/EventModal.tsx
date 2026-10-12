@@ -1,6 +1,7 @@
 "use client";
 
 import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { rewriteOdooMediaUrls } from "@/lib/api";
 import { formatEventClockRange, formatEventDay } from "@/lib/datetime";
 import type { MmbmEvent } from "@/lib/types";
 
@@ -85,7 +86,7 @@ export default function EventModal({
         {event.description && (
           <div
             className="prose-mmbm mt-4 max-w-none border-t border-saffron-100 pt-4 text-sm text-stone-700 [&_p]:mb-2"
-            dangerouslySetInnerHTML={{ __html: event.description }}
+            dangerouslySetInnerHTML={{ __html: rewriteOdooMediaUrls(event.description) }}
           />
         )}
       </div>

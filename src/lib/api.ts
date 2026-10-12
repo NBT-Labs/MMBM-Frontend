@@ -44,6 +44,21 @@ function toPublicImageUrl(path: string | null): string | null {
   return `${PUBLIC_API_BASE_URL}${path}`;
 }
 
+/**
+ * Odoo Html fields embed relative `/web/image/...` (and `/web/content/...`)
+ * URLs. On Admin those resolve against the Odoo host; on the public site the
+ * browser would request them on www and 404. Prefix with the public API base
+ * so images hit Odoo (e.g. admin.mmbm.cloud / localhost:8069).
+ */
+export function rewriteOdooMediaUrls(html: string): string {
+  if (!html) return html;
+  return html.replace(
+    /(\b(?:src|href)=)(["'])(\/web\/(?:image|content)\b[^"']*)\2/gi,
+    (_match, attr: string, quote: string, path: string) =>
+      `${attr}${quote}${PUBLIC_API_BASE_URL}${path}${quote}`,
+  );
+}
+
 export function getConfig(): Promise<SiteConfig | null> {
   return getJson<SiteConfig | null>("/api/mmbm/config", null);
 }

@@ -1,3 +1,5 @@
+import { rewriteOdooMediaUrls } from "@/lib/api";
+
 // Renders Odoo Html-field content. Source is trusted (edited by association
 // admins in Odoo), not public user input, so this mirrors the previous
 // vanilla frontend's use of innerHTML.
@@ -12,7 +14,7 @@ export default function RichText({
   return (
     <div
       className={`prose-mmbm max-w-none ${className}`}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: rewriteOdooMediaUrls(html) }}
     />
   );
 }

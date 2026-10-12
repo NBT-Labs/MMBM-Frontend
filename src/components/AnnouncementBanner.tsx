@@ -1,3 +1,4 @@
+import { rewriteOdooMediaUrls } from "@/lib/api";
 import type { Announcement } from "@/lib/types";
 
 export default function AnnouncementBanner({
@@ -42,7 +43,9 @@ export default function AnnouncementBanner({
           {hasDescription && (
             <div
               className="mt-0.5 truncate text-xs text-maroon-900/70 [&_p]:m-0 [&_p]:inline"
-              dangerouslySetInnerHTML={{ __html: announcement.message || "" }}
+              dangerouslySetInnerHTML={{
+                __html: rewriteOdooMediaUrls(announcement.message || ""),
+              }}
             />
           )}
         </div>
